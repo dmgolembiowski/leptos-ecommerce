@@ -1,3 +1,4 @@
+#![allow(non_snake_case)]
 use crate::error_template::{AppError, ErrorTemplate};
 
 use leptos::*;
@@ -5,6 +6,7 @@ use leptos_meta::*;
 use leptos_router::*;
 
 pub mod error_template;
+pub mod inventory;
 
 #[component]
 pub fn App() -> impl IntoView {
