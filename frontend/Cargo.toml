@@ -10,6 +10,7 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 app = { path = "../app", default-features = false, features = ["hydrate"] }
+common = { path = "../common" }
 leptos = { workspace = true, features = [ "hydrate" ] }
 
 console_error_panic_hook.workspace = true

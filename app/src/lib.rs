@@ -6,7 +6,6 @@ use leptos_meta::*;
 use leptos_router::*;
 
 pub mod error_template;
-pub mod inventory;
 
 #[component]
 pub fn App() -> impl IntoView {
