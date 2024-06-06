@@ -1,9 +1,9 @@
 create table if not exists inventory (
   id int primary key generated always as identity,
-  name varchar(80) not null,
-  asset varchar(80) not null,
+  name varchar(255) not null,
+  asset varchar(255) not null,
   cost money not null,
-  quantity_available int not null default 18446744073709551615
+  quantity_available int not null default 9999999
 );
 create table if not exists bill (
   id int primary key generated always as identity,
