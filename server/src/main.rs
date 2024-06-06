@@ -1,10 +1,15 @@
 use app::*;
 use axum::Router;
 use fileserv::file_and_error_handler;
-use leptos::*;
+use leptos::prelude::*;
 use leptos_axum::{generate_route_list, LeptosRoutes};
+use rusqlite::Connection;
+use crate::state::AppState;
+use std::sync::{Arc, Mutex};
+use leptos_meta::MetaTags;
 
 pub mod fileserv;
+pub mod state;
 
 #[tokio::main]
 async fn main() {
@@ -19,12 +24,36 @@ async fn main() {
     let leptos_options = conf.leptos_options;
     let addr = leptos_options.site_addr;
     let routes = generate_route_list(App);
+    let conn = Arc::new(Mutex::new(Connection::open("./db.db3").expect("Failed to connect to DB")));
 
+
+    let state = AppState{
+        leptos_options: leptos_options.clone(),
+        routes: routes.clone(),
+        conn
+    };
     // build our application with a route
     let app = Router::new()
-        .leptos_routes(&leptos_options, routes, App)
+        .leptos_routes(&state, routes,   move || {
+                use leptos::prelude::*;
+
+                view! {
+                    <!DOCTYPE html> 
+                    <html lang="en">
+                        <head>
+                            <meta charset="utf-8"/>
+                            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                            // <AutoReload options=app_state.leptos_options.clone() />
+                            <HydrationScripts options=leptos_options.clone()/>
+                            <MetaTags/>
+                        </head>
+                        <body>
+                            <App/>
+                        </body>
+                    </html>
+                }})
         .fallback(file_and_error_handler)
-        .with_state(leptos_options);
+        .with_state(state);
 
     // run our app with hyper
     // `axum::Server` is a re-export of `hyper::Server`
