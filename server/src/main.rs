@@ -5,11 +5,18 @@ use leptos::prelude::*;
 use leptos_axum::{generate_route_list, LeptosRoutes};
 use rusqlite::Connection;
 use crate::state::AppState;
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 use leptos_meta::MetaTags;
+use tokio::sync::Mutex;
 
 pub mod fileserv;
 pub mod state;
+
+
+mod embedded {
+    use refinery::embed_migrations;
+    embed_migrations!("./migrations");
+}
 
 #[tokio::main]
 async fn main() {
@@ -25,8 +32,10 @@ async fn main() {
     let addr = leptos_options.site_addr;
     let routes = generate_route_list(App);
     let conn = Arc::new(Mutex::new(Connection::open("./db.db3").expect("Failed to connect to DB")));
-
-
+    {
+    let db_conn = &mut *conn.lock().await;
+    embedded::migrations::runner().run(db_conn).unwrap();
+    }
     let state = AppState{
         leptos_options: leptos_options.clone(),
         routes: routes.clone(),
