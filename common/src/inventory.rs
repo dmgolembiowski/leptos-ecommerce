@@ -7,11 +7,13 @@ use {
     },
     tokio_stream::{
         self as stream, 
+        Iter,
+        Stream,
         StreamExt,
-        StreamNotifyClose,
+        StreamMap,
     },
 };
-
+use crate::InventoryRowId;
 // pub trait Transaction<E>: Future<Output = Result<(), E>> + Send;
 // pub type FailReason = Box<dyn std::error::Error>>;
 
@@ -30,7 +32,7 @@ pub trait Inventory {
     type Order;
 
     /// Returns a stream of line items that can be recovered by their domain provider
-    async fn catalog(&self) -> StreamNotifyClose<Self::LineItem>;
+    async fn catalog(&self) -> StreamMap<InventoryRowId, Iter<std::vec::IntoIter<Self::LineItem>>>;
     // fn catalog(&self) -> impl Future<Output = StreamNotifyClose<Self::LineItem>> + Send;
 
     /// Applies an order to the backing inventory

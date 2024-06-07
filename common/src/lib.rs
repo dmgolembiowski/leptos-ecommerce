@@ -1,8 +1,7 @@
 //! A collection of shared type definitions and utilities
 //! for the ecommerce platform.
-#![allow(async_fn_in_trait)]
+#![allow(async_fn_in_trait, unused_imports)]
 
-use std::fmt::{self, Display};
 use std::path::PathBuf;
 
 pub mod inventory;
