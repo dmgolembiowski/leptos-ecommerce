@@ -37,7 +37,7 @@ pub fn App() -> impl IntoView {
 }
 
 /// Renders the home page of your application.
-#[component]
+#[island]
 fn HomePage() -> impl IntoView {
     // Creates a reactive value to update the button
     let (count, set_count) = signal(0);
