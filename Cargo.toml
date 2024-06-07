@@ -16,15 +16,15 @@ panic = "abort"
 #leptos_axum = { version = "0.6" }
 
 
-leptos = { version = "0.7.0-preview2" }
-leptos_meta = { version = "0.7.0-preview2" }
-leptos_router = { version = "0.7.0-preview2" }
-leptos_axum = { version = "0.7.0-preview2" }
+#leptos = { version = "0.7.0-preview2" }
+#leptos_meta = { version = "0.7.0-preview2" }
+#leptos_router = { version = "0.7.0-preview2" }
+#leptos_axum = { version = "0.7.0-preview2" }
 
-#leptos = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
-#leptos_meta = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
-#leptos_router = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
-#leptos_axum = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
+leptos = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
+leptos_meta = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
+leptos_router = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
+leptos_axum = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
 
 axum = {version="0.7", features=["macros"]}
 cfg-if = "1"
