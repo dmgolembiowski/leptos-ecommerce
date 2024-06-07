@@ -1,6 +1,5 @@
 #[rustfmt::skip]
 use {
-    serde::{Deserialize as _, Serialize as _},
     serde_json as _,
     std::iter::IntoIterator,
 };

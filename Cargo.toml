@@ -2,19 +2,31 @@
 resolver = "2"
 members = ["app", "frontend", "server", "common"]
 
-# need to be applied only to wasm build
-[profile.release]
-codegen-units = 1
-lto = true
+[profile.wasm-release]
+inherits = "release"
 opt-level = 'z'
+lto = true
+codegen-units = 1
+panic = "abort"
 
 [workspace.dependencies]
-leptos = { version = "0.6" }
-leptos_meta = { version = "0.6" }
-leptos_router = { version = "0.6" }
-leptos_axum = { version = "0.6" }
+#leptos = { version = "0.6" }
+#leptos_meta = { version = "0.6" }
+#leptos_router = { version = "0.6" }
+#leptos_axum = { version = "0.6" }
 
-axum = "0.7"
+
+#leptos = { version = "0.7.0-preview2" }
+#leptos_meta = { version = "0.7.0-preview2" }
+#leptos_router = { version = "0.7.0-preview2" }
+#leptos_axum = { version = "0.7.0-preview2" }
+
+leptos = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
+leptos_meta = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
+leptos_router = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
+leptos_axum = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
+
+axum = {version="0.7", features=["macros"]}
 cfg-if = "1"
 console_error_panic_hook = "0.1.7"
 console_log = "1"
@@ -22,7 +34,7 @@ http = "1"
 log = "0.4.20"
 serde_json = "1.0.117"
 serde = { version = "1.0.203", features = ["derive"] }
-simple_logger = "4.2.0"
+simple_logger = "5"
 thiserror = "1"
 tokio = { version = "1.33.0", features = ["full"] }
 tower = { version = "0.4.13", features = ["full"] }
@@ -35,7 +47,7 @@ wasm-bindgen = "=0.2.92"
 # that are used together frontend (lib) & server (bin)
 [[workspace.metadata.leptos]]
 # this name is used for the wasm, js and css file names
-name = "start-axum-workspace"
+name = "leptos-ecommerce"
 
 # the package in the workspace that contains the server binary (binary crate)
 bin-package = "server"
@@ -99,3 +111,6 @@ lib-features = []
 #
 # Optional. Defaults to false.
 lib-default-features = false
+
+lib-profile-release = "wasm-release"
+
