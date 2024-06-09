@@ -1,13 +1,13 @@
 use crate::models::types::*;
-use derive_builder::Builder;
-use std::path::PathBuf;
 use cfg_if::cfg_if;
+use derive_builder::Builder;
 use errors::EcommerceAppError;
+use std::path::PathBuf;
 
 /// By default, the server will use this type
 /// to implement the `Inventory` trait, however
 /// this can be overridden to help with orphan rules.
-#[derive(Default, Builder, Debug, Clone)]
+#[derive(serde::Serialize, serde::Deserialize, Default, Builder, Debug, Clone)]
 #[builder]
 pub struct InventoryRow {
     pub id: InventoryRowId,
@@ -19,7 +19,23 @@ pub struct InventoryRow {
     pub updated_at: Time,
 }
 
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
+#[repr(transparent)]
 pub struct Inventory(Vec<InventoryRow>);
+
+impl Inventory {
+    pub async fn borrow_inner(&self) -> &Vec<InventoryRow> {
+        &self.0
+    }
+
+    pub async fn borrow_inner_mut(&mut self) -> &mut Vec<InventoryRow> {
+        &mut self.0
+    }
+
+    pub fn into_inner(self) -> Vec<InventoryRow> {
+        self.0
+    }
+}
 
 cfg_if! {
 if #[cfg(feature = "ssr")] {
