@@ -60,67 +60,66 @@ impl Iterator for BillLineItems {
 
 pub struct Bill(BillRow);
 
-impl Bill{
+impl Bill {
     /// This generates a database record and updates the inventory in response
     /// to a requested cart's order.
-    // async fn purchase(
-    //     &self,
-    //     order: &Self::Order,
-    //     cust: &Self::Purchaser,
-    // ) -> Result<(), Box<dyn std::error::Error>> {
-    //     let cnx = &mut *self.conn.lock().await;
-    //     let can_proceed = &mut true;
-    //
-    //     for (inv_name, count) in order.clone() {
-    //         let mut stmt = cnx
-    //             .prepare("SELECT quantity_available, name FROM inventory WHERE (name = ?1)")
-    //             .unwrap();
-    //         let left = stmt.query_row([inv_name], |row| row.get(1)).unwrap();
-    //         if count > left {
-    //             *can_proceed = false;
-    //             break;
-    //         }
-    //     }
-    //
-    //     if !*can_proceed {
-    //         return Err("Insufficient inventory".into());
-    //     }
-    //
-    //     let mut total_cost: Money = 0.00;
-    //     let mut line_items = BTreeMap::<InventoryName, Count>::new();
-    //
-    //     type Data = Result<(u32, String, f32), rusqlite::Error>;
-    //
-    //     for (inv_name, count) in order.clone() {
-    //         let data: Data = cnx.query_row_and_then(
-    //             "SELECT (id, cost, name) FROM inventory WHERE (name = :inv_name)",
-    //             &[(":inv_name", &inv_name)],
-    //             |row| {
-    //                 Ok((
-    //                     row.get::<_, u32>(0).unwrap(),
-    //                     row.get::<_, String>(1).unwrap(),
-    //                     row.get::<_, f32>(2).unwrap(),
-    //                 ))
-    //             },
-    //         );
-    //         let (inv_id, inv_name, cost) = data?;
-    //         total_cost += cost * count as Money;
-    //         line_items.insert(inv_name, count);
-    //
-    //         let mut stmt = cnx.prepare(
-    //             "UPDATE inventory SET quantity_available = quantity_available - ?1 WHERE (id = ?2)",
-    //         )?;
-    //         stmt.execute(rusqlite::params![count, inv_id])?;
-    //     }
-    //
-    //     let li = serde_json::to_string(&line_items)?;
-    //     let params = rusqlite::params![cust, li, total_cost];
-    //
-    //     cnx.execute(
-    //         "INSERT INTO bills (customer_id, line_items, total) VALUES (?1, ?2, ?3)",
-    //         params,
-    //     )?;
-    //
-    //     Ok(())
-    // }
+    async fn purchase(
+        &self,
+        order: &Self::Order,
+        cust: &Self::Purchaser,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let cnx = &mut *self.conn.lock().await;
+        let can_proceed = &mut true;
+
+        for (inv_name, count) in order.clone() {
+            let mut stmt = cnx
+                .prepare("SELECT quantity_available, name FROM inventory WHERE (name = ?1)")
+                .unwrap();
+            let left = stmt.query_row([inv_name], |row| row.get(1)).unwrap();
+            if count > left {
+                *can_proceed = false;
+                break;
+            }
+        }
+
+        if !*can_proceed {
+            return Err("Insufficient inventory".into());
+        }
+
+        let mut total_cost: Money = 0.00;
+        let mut line_items = BTreeMap::<InventoryName, Count>::new();
+
+        type Data = Result<(u32, String, f32), rusqlite::Error>;
+
+        for (inv_name, count) in order.clone() {
+            let data: Data = cnx.query_row_and_then(
+                "SELECT (id, cost, name) FROM inventory WHERE (name = :inv_name)",
+                &[(":inv_name", &inv_name)],
+                |row| {
+                    Ok((
+                        row.get::<_, u32>(0).unwrap(),
+                        row.get::<_, String>(1).unwrap(),
+                        row.get::<_, f32>(2).unwrap(),
+                    ))
+                },
+            );
+            let (inv_id, inv_name, cost) = data?;
+            total_cost += cost * count as Money;
+            line_items.insert(inv_name, count);
+
+            let mut stmt = cnx.prepare(
+                "UPDATE inventory SET quantity_available = quantity_available - ?1 WHERE (id = ?2)",
+            )?;
+            stmt.execute(rusqlite::params![count, inv_id])?;
+        }
+
+        let li = serde_json::to_string(&line_items)?;
+        let params = rusqlite::params![cust, li, total_cost];
+
+        cnx.execute(
+            "INSERT INTO bills (customer_id, line_items, total) VALUES (?1, ?2, ?3)",
+            params,
+        )?;
+        Ok(())
+    }
 }
