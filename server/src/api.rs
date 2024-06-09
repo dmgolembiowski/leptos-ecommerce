@@ -46,7 +46,7 @@ pub async fn api_handler(State(state): State<AppState>, req: Request<Body>) -> A
                 .into_iter()
                 .collect::<Vec<_>>();
 
-            Json(serde_json::to_string(&it).unwrap()).into_response()
+            Json(&it)).into_response()
         }
         _ => {
             panic!()
