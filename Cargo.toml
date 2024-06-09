@@ -30,6 +30,7 @@ axum = {version="0.7", features=["macros"]}
 cfg-if = "1"
 console_error_panic_hook = "0.1.7"
 console_log = "1"
+derive_builder = "0.20"
 http = "1"
 log = "0.4.20"
 serde_json = "1.0.117"

@@ -19,7 +19,8 @@ tokio-stream.workspace = true
 tower.workspace = true
 tower-http.workspace = true
 log.workspace = true
-rusqlite = { version = "0.31.0", features = ["bundled"] }
+rusqlite = { version = "0.31.0", features = ["bundled-full", "rusqlite-macros"] }
 serde = { version = "1.0.203", features = ["derive"] }
 serde_json = "1.0.117"
-refinery = { version = "0.8.14", features = ["rusqlite-bundled"] }
+refinery = { version = "0.8.14", features = ["rusqlite"] }
+# refinery = { version = "0.8.14", features = ["rusqlite-bundled"] }
