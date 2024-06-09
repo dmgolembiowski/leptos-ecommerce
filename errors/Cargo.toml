@@ -1,0 +1,17 @@
+[package]
+name = "errors"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cfg-if = "1.0.0"
+http = "1.1.0"
+serde = { version = "1.0.203", features = ["derive"] }
+thiserror = "1.0.61"
+miette = "7.2.0"
+strum = "0.26"
+strum_macros = "0.26"
+
+[features]
+ssr = []
+hydrate = []

@@ -2,23 +2,9 @@ use cfg_if::cfg_if;
 use http::status::StatusCode;
 use leptos::prelude::*;
 use thiserror::Error;
-
+use ::errors::EcommerceAppError;
 #[cfg(feature = "ssr")]
 use leptos_axum::ResponseOptions;
-
-#[derive(Clone, Debug, Error)]
-pub enum AppError {
-    #[error("Not Found")]
-    NotFound,
-}
-
-impl AppError {
-    pub fn status_code(&self) -> StatusCode {
-        match self {
-            AppError::NotFound => StatusCode::NOT_FOUND,
-        }
-    }
-}
 
 // A basic function to display errors served by the error boundaries.
 // Feel free to do more complicated things here than just displaying the error.
@@ -38,9 +24,9 @@ pub fn ErrorTemplate(
     let errors = errors.get_untracked();
 
     // Downcast lets us take a type that implements `std::error::Error`
-    let errors: Vec<AppError> = errors
+    let errors: Vec<EcommerceAppError> = errors
         .into_iter()
-        .filter_map(|(_k, v)| v.downcast_ref::<AppError>().cloned())
+        .filter_map(|(_k, v)| v.downcast_ref::<EcommerceAppError>().cloned())
         .collect();
     //println!("Errors: {errors:#?}");
 

@@ -1,6 +1,8 @@
 use crate::models::types::*;
 use derive_builder::Builder;
 use std::path::PathBuf;
+use cfg_if::cfg_if;
+use errors::EcommerceAppError;
 
 /// By default, the server will use this type
 /// to implement the `Inventory` trait, however
@@ -16,3 +18,39 @@ pub struct InventoryRow {
     pub created_at: Time,
     pub updated_at: Time,
 }
+
+pub struct Inventory(Vec<InventoryRow>);
+
+cfg_if! {
+if #[cfg(feature = "ssr")] {
+        use crate::conn;
+impl Inventory{
+        pub async fn get() -> Result<Self, EcommerceAppError> {
+        let conn_raw = conn().await?;
+        let conn = &mut *conn_raw.lock().await;
+        let mut stmt = conn.prepare("SELECT id, name, asset, cost, quantity_available, created_at, updated_at FROM inventory").unwrap();
+        let mut rows = stmt.query([]).unwrap();
+        let mut it: Vec<InventoryRow> = vec![];
+        while let Some(row) = rows.next().unwrap() {
+            it.push(
+                crate::InventoryRowBuilder::default()
+                    .id(row.get(0).unwrap())
+                    .name(row.get(1).unwrap())
+                    .asset(<String as Into<std::path::PathBuf>>::into(
+                        row.get(2).unwrap(),
+                    ))
+                    .cost(row.get(3).unwrap())
+                    .quantity_available(row.get(4).unwrap())
+                    .created_at(row.get(5).unwrap())
+                    .updated_at(row.get(6).unwrap())
+                    .build()
+                    .unwrap(),
+            );
+        }
+        Ok(Inventory(it))
+    }
+
+
+}
+}
+    }

@@ -1,6 +1,5 @@
 use crate::state::AppState;
 use app::*;
-use axum::routing::{get, post};
 use axum::Router;
 use fileserv::file_and_error_handler;
 use leptos::prelude::*;
@@ -10,7 +9,6 @@ use rusqlite::Connection;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 
-pub mod api;
 pub mod fileserv;
 pub mod state;
 
@@ -42,12 +40,11 @@ async fn main() {
     let state = AppState {
         leptos_options: leptos_options.clone(),
         routes: routes.clone(),
-        conn,
+        conn: conn.clone(),
     };
     // build our application with a route
     let app = Router::new()
-        .route("/api/catalog", get(api::api_handler).post(api::api_handler))
-        .leptos_routes(&state, routes, move || {
+        .leptos_routes_with_context(&state, routes,move || {provide_context(conn.clone());}, move || {
             use leptos::prelude::*;
 
             view! {

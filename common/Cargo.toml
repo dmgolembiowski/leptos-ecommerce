@@ -7,20 +7,25 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-# leptos.workspace = true
-# leptos_meta.workspace = true
-# leptos_router.workspace = true
-# leptos_axum = { workspace = true, optional = true }
+leptos.workspace = true
+leptos_meta.workspace = true
+# leptos_router = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
+leptos_router = { workspace = true, optional = true }
+leptos_axum = { workspace = true, optional = true }
 
-# cfg-if.workspace = true
+errors = {path="../errors"}
 derive_builder.workspace = true
 tokio-stream.workspace = true
 thiserror.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+rusqlite.workspace = true
+cfg-if.workspace = true
+axum = {workspace = true, optional = true}
+tokio = {workspace = true, optional = true}
 
-# [features]
-# default = []
-# hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
-# ssr = ["leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "dep:leptos_axum"]
+ [features]
+ default = []
+ hydrate = ["leptos/hydrate", "leptos_router"]
+ ssr = ["errors/ssr", "leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "dep:leptos_axum", "dep:tokio", "dep:axum"]
 
