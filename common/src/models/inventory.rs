@@ -1,9 +1,7 @@
 use crate::models::types::*;
-use crate::common;
-use crate::InventoryRowBuilder;
 use derive_builder::Builder;
 use std::path::PathBuf;
-
+use cfg_if::cfg_if;
 /// By default, the server will use this type
 /// to implement the `Inventory` trait, however
 /// this can be overridden to help with orphan rules.
@@ -21,9 +19,12 @@ pub struct InventoryRow {
 
 pub struct Inventory(Vec<InventoryRow>);
 
+cfg_if! {
+if #[cfg(feature = "ssr")] {
+        use app::functions::conn;
 impl Inventory{
         async fn get(&self) -> Self {
-        let conn_raw = get_conn();
+        let conn_raw = conn();
         let conn = &mut *conn_raw.lock().await;
         let mut stmt = conn.prepare("SELECT id, name, asset, cost, quantity_available, created_at, updated_at FROM inventory").unwrap();
         let mut rows = stmt.query([]).unwrap();
@@ -49,3 +50,5 @@ impl Inventory{
 
 
 }
+}
+    }

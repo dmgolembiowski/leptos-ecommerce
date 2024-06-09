@@ -1,9 +1,9 @@
 use leptos::prelude::*;
-use server::AppStore;
-
+use common::Inventory;
+use errors::AppError;
 #[server]
-pub async fn get_catalog() -> Result<(), ServerFnError>{
+pub async fn get_catalog() -> Result<(), ServerFnError<AppError>>{
 
-    AppStore::catalog();
+    Inventory::get();
     Ok(())
 }
