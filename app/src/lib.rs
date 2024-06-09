@@ -7,6 +7,7 @@ use leptos_router::{
     StaticSegment,
 };
 pub mod error_template;
+pub mod functions;
 
 #[component]
 pub fn App() -> impl IntoView {

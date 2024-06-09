@@ -1,4 +1,6 @@
 use crate::models::types::*;
+use crate::common;
+use crate::InventoryRowBuilder;
 use derive_builder::Builder;
 use std::path::PathBuf;
 
@@ -15,4 +17,35 @@ pub struct InventoryRow {
     pub quantity_available: Count,
     pub created_at: Time,
     pub updated_at: Time,
+}
+
+pub struct Inventory(Vec<InventoryRow>);
+
+impl Inventory{
+        async fn get(&self) -> Self {
+        let conn_raw = get_conn();
+        let conn = &mut *conn_raw.lock().await;
+        let mut stmt = conn.prepare("SELECT id, name, asset, cost, quantity_available, created_at, updated_at FROM inventory").unwrap();
+        let mut rows = stmt.query([]).unwrap();
+        let mut it: Vec<InventoryRow> = vec![];
+        while let Some(row) = rows.next().unwrap() {
+            it.push(
+                common::InventoryRowBuilder::default()
+                    .id(row.get(0).unwrap())
+                    .name(row.get(1).unwrap())
+                    .asset(<String as Into<std::path::PathBuf>>::into(
+                        row.get(2).unwrap(),
+                    ))
+                    .cost(row.get(3).unwrap())
+                    .quantity_available(row.get(4).unwrap())
+                    .created_at(row.get(5).unwrap())
+                    .updated_at(row.get(6).unwrap())
+                    .build()
+                    .unwrap(),
+            );
+        }
+        Inventory(it)
+    }
+
+
 }

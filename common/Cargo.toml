@@ -11,6 +11,7 @@ edition = "2021"
 # leptos_meta.workspace = true
 # leptos_router.workspace = true
 # leptos_axum = { workspace = true, optional = true }
+common = {path="../common"}
 
 # cfg-if.workspace = true
 derive_builder.workspace = true
