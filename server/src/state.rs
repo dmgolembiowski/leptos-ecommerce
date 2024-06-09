@@ -47,26 +47,26 @@ impl Inventory for AppState {
     async fn catalog(&self) -> StreamMap<InventoryRowId, StreamIter<IntoIter<Self::LineItem>>> {
         let conn = &mut *self.conn.lock().await;
         let mut map = StreamMap::new();
-        let stmt = conn.prepare("SELECT id, name, asset, cost, quantity_available, created_at, updated_at FROM inventory;");
-        let rows = {
-            let mut it: Vec<InventoryRow> = vec![];
-            let _ = stmt.unwrap().query_map([], |row| {
-                let entry = common::InventoryRowBuilder::default()
-                    .id(row.get(0)?)
-                    .name(row.get(1)?)
-                    .asset(<String as Into<std::path::PathBuf>>::into(row.get(2)?))
-                    .cost(row.get(3)?)
-                    .quantity_available(row.get(4)?)
-                    .created_at(row.get(5)?)
-                    .updated_at(row.get(6)?)
+        let mut stmt = conn.prepare("SELECT id, name, asset, cost, quantity_available, created_at, updated_at FROM inventory").unwrap();
+        let mut rows = stmt.query([]).unwrap();
+        let mut it: Vec<InventoryRow> = vec![];
+        while let Some(row) = rows.next().unwrap() {
+            it.push(
+                common::InventoryRowBuilder::default()
+                    .id(row.get(0).unwrap())
+                    .name(row.get(1).unwrap())
+                    .asset(<String as Into<std::path::PathBuf>>::into(
+                        row.get(2).unwrap(),
+                    ))
+                    .cost(row.get(3).unwrap())
+                    .quantity_available(row.get(4).unwrap())
+                    .created_at(row.get(5).unwrap())
+                    .updated_at(row.get(6).unwrap())
                     .build()
-                    .unwrap();
-                it.push(entry);
-                Ok(())
-            });
-            it
-        };
-        let stream = tokio_stream::iter(rows);
+                    .unwrap(),
+            );
+        }
+        let stream = tokio_stream::iter(it);
         map.insert(0, stream);
         map
     }
