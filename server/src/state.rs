@@ -110,7 +110,7 @@ impl Inventory for AppState {
         let params = rusqlite::params![cust, li, total_cost];
 
         cnx.execute(
-            "INSERT INTO bills (customer_id, line_items, total) VALUES (?1, ?2)",
+            "INSERT INTO bills (customer_id, line_items, total) VALUES (?1, ?2, ?3)",
             params,
         )?;
 
