@@ -2,8 +2,9 @@ use http::status::StatusCode;
 use miette::Diagnostic;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
-#[derive(Debug, Clone, Error, Diagnostic, Serialize, Deserialize)]
-pub enum AppError {
+use strum_macros::EnumString;
+#[derive(Debug, Clone, EnumString, Error, Diagnostic, Serialize, Deserialize)]
+pub enum EcommerceAppError {
     #[error("Not Found")]
     NotFound,
     #[error("Internal Server Error")]
@@ -16,14 +17,14 @@ pub enum AppError {
     MissingOrInvalidFrontmatter,
 }
 
-impl AppError {
+impl EcommerceAppError {
     pub fn status_code(&self) -> StatusCode {
         match self {
-            AppError::NotFound => StatusCode::NOT_FOUND,
-            AppError::InternalServerError => StatusCode::INTERNAL_SERVER_ERROR,
-            AppError::InvalidDateTime => StatusCode::BAD_REQUEST,
-            AppError::MissingOrInvalidFrontmatter => StatusCode::INTERNAL_SERVER_ERROR,
-            AppError::TomlError(_) => StatusCode::INTERNAL_SERVER_ERROR,
+            EcommerceAppError::NotFound => StatusCode::NOT_FOUND,
+            EcommerceAppError::InternalServerError => StatusCode::INTERNAL_SERVER_ERROR,
+            EcommerceAppError::InvalidDateTime => StatusCode::BAD_REQUEST,
+            EcommerceAppError::MissingOrInvalidFrontmatter => StatusCode::INTERNAL_SERVER_ERROR,
+            EcommerceAppError::TomlError(_) => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
 }

@@ -21,9 +21,11 @@ serde.workspace = true
 serde_json.workspace = true
 rusqlite.workspace = true
 cfg-if.workspace = true
+axum = {workspace = true, optional = true}
+tokio = {workspace = true, optional = true}
 
  [features]
  default = []
  hydrate = ["leptos/hydrate", "leptos_router"]
- ssr = ["errors/ssr", "leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "dep:leptos_axum"]
+ ssr = ["errors/ssr", "leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "dep:leptos_axum", "dep:tokio", "dep:axum"]
 
