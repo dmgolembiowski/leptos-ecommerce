@@ -61,6 +61,7 @@ impl Iterator for BillLineItems {
 pub struct Bill(BillRow);
 
 impl Bill {
+    /*
     /// This generates a database record and updates the inventory in response
     /// to a requested cart's order.
     async fn purchase(
@@ -122,4 +123,5 @@ impl Bill {
         )?;
         Ok(())
     }
+    */
 }
