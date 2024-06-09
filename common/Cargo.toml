@@ -9,7 +9,8 @@ edition = "2021"
 [dependencies]
 leptos.workspace = true
 leptos_meta.workspace = true
-leptos_router.workspace = true
+# leptos_router = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
+leptos_router = { workspace = true, optional = true }
 leptos_axum = { workspace = true, optional = true }
 
 errors = {path="../errors"}
@@ -23,6 +24,6 @@ cfg-if.workspace = true
 
  [features]
  default = []
- hydrate = ["leptos/hydrate", "leptos_router/hydrate"]
+ hydrate = ["leptos/hydrate", "leptos_router"]
  ssr = ["errors/ssr", "leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "dep:leptos_axum"]
 
