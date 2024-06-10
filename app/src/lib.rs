@@ -75,30 +75,32 @@ pub fn Catalog() -> impl IntoView {
              }
         }
         else {
-            <div>
-                <Transition
-                    fallback=|| ()
-                    set_pending
-                >
-                    {move || inventory_row_items.get().map(|cookie_row| cookie_row.map(|row| view! {
-                        <ul>
-                            <For
-                                each=move || row.clone()
-                                key=|r| r.id
-                                let:r
-                            >
-                                <li>
-                                    <span>{r.name}</span>
-                                    <span>{r.price}</span>
-                                    <span>{r.asset}</span>
-                                    <span>{r.cost}</span>
-                                    <span>{r.quantity_available}</span>
-                                </li>
-                            </For>
-                        </ul>
-                    }))}
-                </Transition>
-            </div>
+            view! {
+                <div>
+                    <Transition
+                        fallback=|| ()
+                        set_pending
+                    >
+                        {move || inventory_row_items.get().map(|cookie_row| cookie_row.map(|row| view! {
+                            <ul>
+                                <For
+                                    each=move || row.clone()
+                                    key=|r| r.id
+                                    let:r
+                                >
+                                    <li>
+                                        <span>{r.name}</span>
+                                        <span>{r.price}</span>
+                                        <span>{r.asset}</span>
+                                        <span>{r.cost}</span>
+                                        <span>{r.quantity_available}</span>
+                                    </li>
+                                </For>
+                            </ul>
+                        }))}
+                    </Transition>
+                </div>
+            }
         }}
     }
 }
