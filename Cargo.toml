@@ -23,6 +23,8 @@ panic = "abort"
 
 leptos = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
 leptos_meta = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
+# leptos_reactive = { version = "0.7.0-preview2" }
+leptos_reactive = { git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7" }
 leptos_router = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
 leptos_axum = {git = "https://github.com/leptos-rs/leptos", branch="leptos_0.7"}
 
