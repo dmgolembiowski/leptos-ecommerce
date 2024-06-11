@@ -93,7 +93,6 @@ pub fn Catalog() -> impl IntoView {
                                                                 <span>{r.name}</span>
                                                                 <span>{r.price}</span>
                                                                 <span>{r.asset}</span>
-                                                                <span>{r.cost}</span>
                                                                 <span>{r.quantity_available}</span>
                                                             </li>
                                                         </For>
