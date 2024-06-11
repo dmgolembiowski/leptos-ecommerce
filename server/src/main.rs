@@ -1,5 +1,4 @@
 use crate::state::AppState;
-use app::*;
 use axum::Router;
 use fileserv::file_and_error_handler;
 use leptos::prelude::*;
@@ -8,7 +7,7 @@ use leptos_meta::MetaTags;
 use rusqlite::Connection;
 use std::sync::Arc;
 use tokio::sync::Mutex;
-
+use app::pages::App;
 pub mod fileserv;
 pub mod state;
 

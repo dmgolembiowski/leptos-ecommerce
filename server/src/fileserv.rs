@@ -1,5 +1,5 @@
 #![allow(unused)]
-use app::App;
+use app::pages::App;
 use axum::response::Response as AxumResponse;
 use axum::{
     body::Body,
