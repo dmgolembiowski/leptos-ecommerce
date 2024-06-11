@@ -11,7 +11,6 @@ errors = { path="../errors" }
 rusqlite = {workspace = true, optional=true}
 leptos.workspace = true
 leptos_meta.workspace = true
-leptos_reactive.workspace = true
 leptos_router.workspace = true
 leptos_axum = { workspace = true, optional = true }
 
@@ -23,6 +22,6 @@ serde_json.workspace = true
 
 [features]
 default = []
-hydrate = ["leptos/hydrate", "leptos_reactive/hydrate",  "common/hydrate"]
-ssr = ["leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "leptos_reactive/ssr",  "dep:leptos_axum", "dep:rusqlite", "common/ssr"]
+hydrate = ["leptos/hydrate", "common/hydrate"]
+ssr = ["leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "dep:leptos_axum", "dep:rusqlite", "common/ssr"]
 
