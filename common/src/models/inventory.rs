@@ -69,7 +69,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_inventory_retrieval() {
-        let res = async { Inventory::get().await }.await;
+        let res = Inventory::get().await;
         assert!(res.is_ok());
         let res = res.unwrap();
         assert!(res.rows().len() > 0, "expected more than 0 rows");
