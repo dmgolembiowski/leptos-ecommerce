@@ -381,6 +381,7 @@ dependencies = [
  "leptos_axum",
  "leptos_meta",
  "leptos_router",
+ "refinery",
  "rusqlite",
  "serde",
  "serde_json",

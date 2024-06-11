@@ -24,49 +24,50 @@ pub struct InventoryRow {
 pub struct Inventory(Vec<InventoryRow>);
 
 impl Inventory {
-    pub async fn borrow_inner(&self) -> &Vec<InventoryRow> {
-        &self.0
-    }
+    cfg_if! {
+        if #[cfg(feature = "ssr")] {
+            use crate::conn;
 
-    pub async fn borrow_inner_mut(&mut self) -> &mut Vec<InventoryRow> {
-        &mut self.0
-    }
-
-    pub fn into_inner(self) -> Vec<InventoryRow> {
-        self.0
-    }
-}
-
-cfg_if! {
-if #[cfg(feature = "ssr")] {
-        use crate::conn;
-impl Inventory{
-        pub async fn get() -> Result<Self, EcommerceAppError> {
-        let conn_raw = conn().await?;
-        let conn = &mut *conn_raw.lock().await;
-        let mut stmt = conn.prepare("SELECT id, name, asset, cost, quantity_available, created_at, updated_at FROM inventory").unwrap();
-        let mut rows = stmt.query([]).unwrap();
-        let mut it: Vec<InventoryRow> = vec![];
-        while let Some(row) = rows.next().unwrap() {
-            it.push(
-                crate::InventoryRowBuilder::default()
-                    .id(row.get(0).unwrap())
-                    .name(row.get(1).unwrap())
-                    .asset(<String as Into<std::path::PathBuf>>::into(
-                        row.get(2).unwrap(),
-                    ))
-                    .cost(row.get(3).unwrap())
-                    .quantity_available(row.get(4).unwrap())
-                    .created_at(row.get(5).unwrap())
-                    .updated_at(row.get(6).unwrap())
-                    .build()
-                    .unwrap(),
-            );
+            impl Inventory{
+                    pub async fn get() -> Result<Self, EcommerceAppError> {
+                    let conn_raw = conn().await?;
+                    let conn = &mut *conn_raw.lock().await;
+                    let mut stmt = conn.prepare("SELECT id, name, asset, cost, quantity_available, created_at, updated_at FROM inventory").unwrap();
+                    let mut rows = stmt.query([]).unwrap();
+                    let mut it: Vec<InventoryRow> = vec![];
+                    while let Some(row) = rows.next().unwrap() {
+                        it.push(
+                            crate::InventoryRowBuilder::default()
+                                .id(row.get(0).unwrap())
+                                .name(row.get(1).unwrap())
+                                .asset(<String as Into<std::path::PathBuf>>::into(
+                                    row.get(2).unwrap(),
+                                ))
+                                .cost(row.get(3).unwrap())
+                                .quantity_available(row.get(4).unwrap())
+                                .created_at(row.get(5).unwrap())
+                                .updated_at(row.get(6).unwrap())
+                                .build()
+                                .unwrap(),
+                        );
+                    }
+                    Ok(Inventory(it))
+                }
+            }
         }
-        Ok(Inventory(it))
     }
-
-
 }
-}
+#[cfg(feature = "ssr")]
+#[cfg(test)]
+mod tests {
+    use super::Inventory;
+    use tokio;
+
+    #[tokio::test]
+    async fn test_inventory_retrieval() {
+        let res = Inventory::get().await;
+        assert!(res.is_ok());
+        let res = res.unwrap();
+        assert!(res.rows().len() > 0, "expected more than 0 rows");
     }
+}
