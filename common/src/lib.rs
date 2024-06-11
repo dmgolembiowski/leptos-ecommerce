@@ -10,10 +10,8 @@ use cfg_if::cfg_if;
 cfg_if! {
     if #[cfg(feature = "ssr")] {
         use ::errors::EcommerceAppError;
-        use leptos_axum::extract_with_state;
         use rusqlite::Connection;
         use leptos::prelude::*;
-        use axum::extract::State;
         use std::sync::Arc;
         use tokio::sync::Mutex;
 

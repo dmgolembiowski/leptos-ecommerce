@@ -1,5 +1,4 @@
 use crate::state::AppState;
-use app::*;
 use axum::Router;
 use fileserv::file_and_error_handler;
 use leptos::prelude::*;
@@ -8,7 +7,7 @@ use leptos_meta::MetaTags;
 use rusqlite::Connection;
 use std::sync::Arc;
 use tokio::sync::Mutex;
-
+use app::pages::App;
 pub mod fileserv;
 pub mod state;
 
@@ -43,26 +42,34 @@ async fn main() {
         conn: conn.clone(),
     };
     // build our application with a route
-    let app = Router::new()
-        .leptos_routes_with_context(&state, routes,move || {provide_context(conn.clone());}, move || {
-            use leptos::prelude::*;
 
-            view! {
-                <!DOCTYPE html>
-                <html lang="en">
-                    <head>
-                        <meta charset="utf-8"/>
-                        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                        // <AutoReload options=app_state.leptos_options.clone() />
-                        <HydrationScripts options=leptos_options.clone()/>
-                        <MetaTags/>
-                    </head>
-                    <body>
-                        <App/>
-                    </body>
-                </html>
-            }
-        })
+    let app = Router::new()
+        .leptos_routes_with_context(
+            &state,
+            routes,
+            move || {
+                provide_context(conn.clone());
+            },
+            move || {
+                use leptos::prelude::*;
+
+                view! {
+                    <!DOCTYPE html>
+                    <html lang="en">
+                        <head>
+                            <meta charset="utf-8"/>
+                            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                            // <AutoReload options=app_state.leptos_options.clone() />
+                            <HydrationScripts options=leptos_options.clone()/>
+                            <MetaTags/>
+                        </head>
+                        <body>
+                            <App/>
+                        </body>
+                    </html>
+                }
+            },
+        )
         .fallback(file_and_error_handler)
         .with_state(state);
 
