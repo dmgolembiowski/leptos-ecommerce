@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 common = { path = "../common" }
 errors = { path="../errors" }
+camino = { workspace = true }
 rusqlite = {workspace = true, optional=true}
 leptos.workspace = true
 leptos_meta.workspace = true

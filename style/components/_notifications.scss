@@ -1,0 +1,34 @@
+// _notifications.scss
+// 
+// Template's notifications styles.
+//
+
+.notification-notice {
+	border-radius: 8px;
+}
+
+@each $name, $value in $colors {
+	.notification-#{$name} {
+		background-color: $value;
+		color: #ffffff;
+
+		.notification-notice-message,
+		.notification-close-x {
+			color: #ffffff;
+		}
+		.notification-notice-description {
+			opacity: 0.9;
+		}
+	}
+}
+
+.notification-warning {
+	color: #333333;
+
+	.notification-notice-message,
+	.notification-close-x {
+		color: #333333;
+	}
+}
+
+// / Template's notifications styles.

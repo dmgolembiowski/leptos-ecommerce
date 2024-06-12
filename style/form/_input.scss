@@ -1,0 +1,38 @@
+// _input.scss
+// 
+// Template's input styles.
+// 
+
+.input {
+	border-radius: 6px;
+}
+
+.form-item-label {
+	line-height: 28px;
+}
+
+.form-item label {
+	font-size: 13px;
+	font-weight: $fw-semibold;
+	color: $color-gray-12;
+}
+
+.layout-dashboard-rtl {
+	.header-control {
+		.header-search {
+			.input {
+				&:not(:first-child) {
+					padding-right: 32px;
+					padding-left: 11px;
+				}
+			}
+		}
+	}
+
+	.input-affix-wrapper .input-prefix {
+		right: 12px;
+		left: auto;
+	}
+}
+
+// / Template's input styles.

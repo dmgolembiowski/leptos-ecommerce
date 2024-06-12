@@ -34,7 +34,7 @@ cfg_if! {
                         let conn = Arc::new(Mutex::new(
                             Connection::open("./../db.db3")
                                 .expect("Failed to connect to DB")
-                            )
+    )
                         );
 
                         conn
@@ -57,6 +57,5 @@ cfg_if! {
                 Ok(raw_conn)
             }
         }
-
-
-}}
+    }
+}
