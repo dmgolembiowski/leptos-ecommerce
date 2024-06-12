@@ -2,8 +2,10 @@
 **/*.rs.bk
 **/debug/
 **/target/
+**/*.swp
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
+
 =======
 # node e2e test tools and outputs
 node_modules/
