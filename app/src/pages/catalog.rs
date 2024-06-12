@@ -11,7 +11,7 @@ pub fn Catalog() -> impl IntoView {
                     <Transition fallback=|| {
                         view! { <p>"Loading"</p> }
                     }>
-                        <div style="display: grid; grid-template-columns: auto auto auto; padding: 10px;">
+                        <div class="card-product col-gallery" style="display: grid; grid-template-columns: auto auto auto auto; justify-content: ; align-content: center;">
                         {move || {
                             inventory_row_items
                                 .get()
@@ -22,11 +22,9 @@ pub fn Catalog() -> impl IntoView {
                                                 .into_iter()
                                                 .map(|r| {
                                                     view! {
-                                                        <div class="card-body" style="display: flex; padding: 20px; text-align: center;">
-                                                            <img src={format!("/assets/{:}", r.asset.into_os_string().into_string().unwrap())} style="display: block; max-width: 32vh; max-height: 32vh; height: auto; width: auto;" />
+                                                        <div class="card-body pswipe-gallery" style="padding: 20px; justify-content: end;">
+                                                            <img src={format!("/assets/{:}", r.asset.into_os_string().into_string().unwrap())} style="display: block; max-width: 32vh; max-height: 32vh; height: auto; width: auto; align-content: space-around;" />
                                                             <h5 class="typography">{r.name}</h5>
-                                                        <br />
-                                                            <div class="typography"><span class="bnb2">{r.cost}</span></div>
                                                         </div>
                                                     }
                                                 })
