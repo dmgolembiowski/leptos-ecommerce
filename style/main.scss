@@ -1,3 +1,8 @@
+:root {
+  --min: 250px;
+  --space: 2rem;
+}
+
 body {
 	font-family: sans-serif;
 	text-align: center;
@@ -53,4 +58,56 @@ body {
 @import "./pages/_sign-up" ;
 // Pages
 
+
+@mixin gridmix($min, $space) {
+  $i: "Grid-#{$min}-#{$space}";
+
+  [data-i="#{$i}"] {
+    grid-gap: #{$space};
+  }
+
+  @supports (width: min(#{$min}, 100%)) {
+    [data-i="#{$i}"] {
+      grid-template-columns: repeat(auto-fill, minmax(min(#{$min}, 100%), 1fr));
+    }
+  }
+}
+
+.grid-l {
+  display: grid; 
+  grid-gap: var(--s1); 
+  align-content: start;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  // grid-template-columns: auto auto auto;
+  @include gridmix(var(--min), var(--space));
+}
+
+.grid-item {
+  border-radius: 18px;
+  border-style: solid;
+  border-color: rgb(239, 239, 239);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: block;
+  margin: 10px;
+  background: #feb9cc;
+  max-width: 32rem;
+  height: 30rem;
+
+}
+.grid-item img {
+  border-style: solid;
+  border-radius: 12px;
+  border-color: #feb;
+  margin-top: 5vh;
+  width: auto;
+  object-fit: contain;
+  max-width: 80%;
+  max-height: 20rem;
+  height: auto;
+}
+
+.grid-item h5 {
+  margin-bottom: 2vh;
+  color: grey;
+}
 // / Template's main stylesheet.

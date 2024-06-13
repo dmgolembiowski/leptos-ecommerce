@@ -8,12 +8,20 @@ fn Home() -> impl IntoView {
     // Creates a reactive value to update the button
 
     //  <button on:click=on_click>"Click Me: " {count}</button>
-    view! {
+    /*view! {
         <section class=("layout layout-has-sider layout-dashboard")>
             <h2>"Byte-sized Cookies"</h2>
+            <Catalog />
             <div class=("layout-content")>
                 <Catalog/>
             </div>
+        </section>
+    }
+    */
+    view! {
+        <section>
+            <h2>"Byte-sized Cookies"</h2>
+            <Catalog />
         </section>
     }
 }
