@@ -20,7 +20,9 @@ fn Home() -> impl IntoView {
     */
     view! {
         <section>
-            <h2>"Byte-sized Cookies"</h2>
+            <div class=("logo")>
+                <img src="/assets/logo.png" alt="Grandma Ben's Byte-sized Cookies" />
+            </div>
             <Catalog />
         </section>
     }
