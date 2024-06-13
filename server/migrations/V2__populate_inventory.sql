@@ -15,7 +15,7 @@ insert into inventory (
     ('Chrome Cookie', 'chrome-cookie.jpg', 0),
     ('Cotton Nerdy Cookie', 'cotton-candy.jpg', 0),
     ('Cowboy Angle Cookie', 'cowboy-angle.jpg', 0),
-    ('Dark Double Chocolate Chip Cookie', 'dark-double.jpg', 0),
+    ('Dark Double Chocolate Chip Cookie', 'dark-double-trouble.jpg', 0),
     ('Double Chocolate Chip Cookie', 'dark-choco-chip.jpg', 0),
     ('Double Trouble Chocolate Chip Cookie', 'double-choco-2.jpg', 0),
     ('Double Triad Chocolate Chip Cookie', 'double-choco-3.jpg', 0),
