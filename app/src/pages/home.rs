@@ -21,7 +21,7 @@ fn Home() -> impl IntoView {
     view! {
         <section>
             <div class=("logo")>
-                <img src="/assets/logo.png" alt="Grandma Ben's Byte-sized Cookies" />
+                <img src="/assets/logo-transparent.png" alt="Grandma Ben's Byte-sized Cookies" />
             </div>
             <Catalog />
         </section>
