@@ -37,23 +37,12 @@ pub fn App() -> impl IntoView {
         <Router>
             <main>
                 <Routes fallback>
-                    <Route path="/catalog" view=Catalog />
-                    <Route path="/catalog/:id" view=InventoryItem />
-                    <Route path="" view=__Home />
+                    <Route path=StaticSegment("catalog") view=Catalog />
+                    <Route path=(StaticSegment("catalog"), ParamSegment("id")) view=InventoryItem />
+                    <Route path=StaticSegment("") view=__Home/>
                 </Routes>
             </main>
         </Router>
-    }
-}
-
-#[component(transparent)]
-fn RootRoutes() -> impl IntoView {
-    view! {
-        <Routes>
-            <Route path=StaticSegment("") view=__Home/>
-            <Route path=StaticSegment("/") view=__Home/>
-            <Route path=StaticSegment("/index.html") view=__Home/>
-        <Routes/>
     }
 }
 

@@ -1,4 +1,5 @@
 use crate::state::AppState;
+use app::pages::App;
 use axum::Router;
 use fileserv::file_and_error_handler;
 use leptos::prelude::*;
@@ -7,9 +8,10 @@ use leptos_meta::MetaTags;
 use rusqlite::Connection;
 use std::sync::Arc;
 use tokio::sync::Mutex;
-use app::pages::App;
 pub mod fileserv;
 pub mod state;
+use tower::ServiceExt;
+use tower_http::services::ServeDir;
 
 mod embedded {
     use refinery::embed_migrations;
@@ -42,14 +44,13 @@ async fn main() {
         conn: conn.clone(),
     };
     // build our application with a route
-
+    // dbg!(&state);
     let app = Router::new()
+        .with_state(state)
         .leptos_routes_with_context(
             &state,
             routes,
-            move || {
-                provide_context(conn.clone());
-            },
+            move || provide_context(conn.clone()),
             move || {
                 use leptos::prelude::*;
 
@@ -70,8 +71,7 @@ async fn main() {
                 }
             },
         )
-        .fallback(file_and_error_handler)
-        .with_state(state);
+        .fallback(file_and_error_handler);
 
     // run our app with hyper
     // `axum::Server` is a re-export of `hyper::Server`

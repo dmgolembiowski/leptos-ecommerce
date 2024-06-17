@@ -1,20 +1,38 @@
 #![allow(unused)]
+
 use app::pages::App;
-use axum::response::Response as AxumResponse;
-use axum::{
-    body::Body,
-    extract::State,
+pub use axum::{
+    body::Body as AxumBody,
+    extract::{Path, State},
     http::{Request, Response, StatusCode, Uri},
-    response::IntoResponse,
+    response::{IntoResponse, Response as AxumResponse},
+    routing::{get, IntoMakeService},
+    Router,
 };
-use leptos::prelude::*;
+pub use leptos::{logging::log, prelude::provide_context, prelude::LeptosOptions, view, *};
+pub use leptos_axum::{generate_route_list, LeptosRoutes};
 use tower::ServiceExt;
 use tower_http::services::ServeDir;
+
+// This custom handler lets us provide Axum State via context
+pub async fn custom_handler(
+    Path(id): Path<String>,
+    State(options): State<LeptosOptions>,
+    req: Request<AxumBody>,
+) -> AxumResponse {
+    let handler = leptos_axum::render_app_to_stream_with_context(
+        move || {
+            provide_context(id.clone());
+        },
+        App,
+    );
+    handler(req).await.into_response()
+}
 
 pub async fn file_and_error_handler(
     uri: Uri,
     State(options): State<LeptosOptions>,
-    req: Request<Body>,
+    req: Request<AxumBody>,
 ) -> AxumResponse {
     let root = options.site_root.clone();
     let res = get_static_file(uri.clone(), &root).await.unwrap();
@@ -22,20 +40,20 @@ pub async fn file_and_error_handler(
     if res.status() == StatusCode::OK {
         res.into_response()
     } else {
-        let handler = leptos_axum::render_app_to_stream(move || "404");
+        let handler = leptos_axum::render_app_to_stream(move || view! { <App/> });
         handler(req).await.into_response()
     }
 }
 
-async fn get_static_file(uri: Uri, root: &str) -> Result<Response<Body>, (StatusCode, String)> {
+async fn get_static_file(uri: Uri, root: &str) -> Result<Response<AxumBody>, (StatusCode, String)> {
     let req = Request::builder()
         .uri(uri.clone())
-        .body(Body::empty())
+        .body(AxumBody::empty())
         .unwrap();
     // `ServeDir` implements `tower::Service` so we can call it with `tower::ServiceExt::oneshot`
     // This path is relative to the cargo root
     match ServeDir::new(root).oneshot(req).await {
-        Ok(res) => Ok(res.map(Body::new)),
+        Ok(res) => Ok(res.into_response()),
         Err(err) => Err((
             StatusCode::INTERNAL_SERVER_ERROR,
             format!("Something went wrong: {err}"),
