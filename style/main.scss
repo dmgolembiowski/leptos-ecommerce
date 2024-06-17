@@ -1,7 +1,10 @@
 :root {
   --min: 250px;
   --space: 2rem;
-  background: linear-gradient(10deg,rgba(140,109,164,1.0),rgba(139,110,162,1.0),rgba(137,112,160,1.0),rgba(132,112,158,1.0),rgba(124,112,156,1.0),rgba(117,113,155,1.0),rgba(110,116,156,1.0),rgba(106,122,158,1.0),rgba(104,130,162,1.0),rgba(104,138,167,1.0),rgba(103,142,169,1.0),rgba(101,142,170,1.0),rgba(103,145,172,1.0),rgba(105,148,173,1.0),rgba(106,152,175,1.0),rgba(108,155,177,1.0),rgba(110,158,178,1.0),rgba(112,161,180,1.0),rgba(114,164,181,1.0),rgba(116,167,183,1.0),rgba(118,169,184,1.0),rgba(119,172,185,1.0),rgba(121,174,186,1.0),rgba(123,176,188,1.0),rgba(125,178,189,1.0),rgba(127,180,190,1.0),rgba(129,181,191,1.0),rgba(130,182,192,1.0),rgba(132,183,192,1.0),rgba(134,184,193,1.0),rgba(135,185,194,1.0),rgba(137,185,194,1.0),rgba(139,185,195,1.0),rgba(140,185,195,1.0),rgba(141,184,196,1.0),rgba(143,184,196,1.0),rgba(144,183,196,1.0),rgba(145,182,196,1.0),rgba(146,180,196,1.0),rgba(147,179,196,1.0),rgba(148,177,195,1.0),rgba(149,175,195,1.0),rgba(150,173,194,1.0),rgba(151,171,194,1.0),rgba(151,168,193,1.0),rgba(152,166,192,1.0),rgba(152,163,192,1.0),rgba(153,160,191,1.0),rgba(153,157,190,1.0),rgba(153,154,188,1.0),rgba(153,151,187,1.0),rgba(153,147,186,1.0),rgba(153,144,184,1.0),rgba(153,140,183,1.0),rgba(152,137,181,1.0),rgba(152,133,180,1.0),rgba(151,129,178,1.0),rgba(150,126,176,1.0),rgba(150,122,174,1.0),rgba(149,118,172,1.0),rgba(148,114,170,1.0),rgba(147,111,168,1.0),rgba(146,107,166,1.0),rgba(142,107,165,1.0));
+  --bg: linear-gradient(10deg,rgba(140,109,164,1.0),rgba(139,110,162,1.0),rgba(137,112,160,1.0),rgba(132,112,158,1.0),rgba(124,112,156,1.0),rgba(117,113,155,1.0),rgba(110,116,156,1.0),rgba(106,122,158,1.0),rgba(104,130,162,1.0),rgba(104,138,167,1.0),rgba(103,142,169,1.0),rgba(101,142,170,1.0),rgba(103,145,172,1.0),rgba(105,148,173,1.0),rgba(106,152,175,1.0),rgba(108,155,177,1.0),rgba(110,158,178,1.0),rgba(112,161,180,1.0),rgba(114,164,181,1.0),rgba(116,167,183,1.0),rgba(118,169,184,1.0),rgba(119,172,185,1.0),rgba(121,174,186,1.0),rgba(123,176,188,1.0),rgba(125,178,189,1.0),rgba(127,180,190,1.0),rgba(129,181,191,1.0),rgba(130,182,192,1.0),rgba(132,183,192,1.0),rgba(134,184,193,1.0),rgba(135,185,194,1.0),rgba(137,185,194,1.0),rgba(139,185,195,1.0),rgba(140,185,195,1.0),rgba(141,184,196,1.0),rgba(143,184,196,1.0),rgba(144,183,196,1.0),rgba(145,182,196,1.0),rgba(146,180,196,1.0),rgba(147,179,196,1.0),rgba(148,177,195,1.0),rgba(149,175,195,1.0),rgba(150,173,194,1.0),rgba(151,171,194,1.0),rgba(151,168,193,1.0),rgba(152,166,192,1.0),rgba(152,163,192,1.0),rgba(153,160,191,1.0),rgba(153,157,190,1.0),rgba(153,154,188,1.0),rgba(153,151,187,1.0),rgba(153,147,186,1.0),rgba(153,144,184,1.0),rgba(153,140,183,1.0),rgba(152,137,181,1.0),rgba(152,133,180,1.0),rgba(151,129,178,1.0),rgba(150,126,176,1.0),rgba(150,122,174,1.0),rgba(149,118,172,1.0),rgba(148,114,170,1.0),rgba(147,111,168,1.0),rgba(146,107,166,1.0),rgba(142,107,165,1.0));
+  background: var(--bg);
+  --pink: #feb9cc;
+  --yellow: #feb;
 
 }
 
@@ -10,57 +13,6 @@ body {
   font-family: sans-serif;
 	text-align: center;
 }
-// Base
-@import "./base/_variables" ;
-@import "./base/_utilities" ;
-@import "./base/_override" ;
-@import "./base/_typography" ;
-// / Base
-
-// Layouts
-@import "./layouts/default" ;
-@import "./layouts/dashboard" ;
-@import "./layouts/dashboard-rtl" ;
-// Layouts
-
-// Components
-@import "./components/_alerts" ;
-@import "./components/_avatar" ;
-@import "./components/_badge" ;
-@import "./components/_button" ;
-@import "./components/_dropdown" ;
-@import "./components/_card" ;
-@import "./components/_chart" ;
-@import "./components/_kanban" ;
-@import "./components/_list" ;
-@import "./components/_photoswipe" ;
-@import "./components/_progress" ;
-@import "./components/_settings-drawer" ;
-@import "./components/_space" ;
-@import "./components/_notifications" ;
-@import "./components/_table" ;
-@import "./components/_tabs" ;
-@import "./components/_tag" ;
-@import "./components/_timeline" ;
-@import "./components/_widget" ;
-@import "./components/_fullcalendar" ;
-// / Components
-
-// Form
-@import "./form/_input" ;
-@import "./form/_checkbox" ;
-@import "./form/_tags" ;
-@import "./form/_quill" ;
-// / Form
-
-// Pages
-@import "./pages/_pricing" ; 
-@import "./pages/_invoice" ;
-@import "./pages/_profile" ;
-@import "./pages/_sign-in" ;
-@import "./pages/_sign-up" ;
-// Pages
-
 
 @mixin gridmix($min, $space) {
   $i: "Grid-#{$min}-#{$space}";
@@ -92,7 +44,7 @@ body {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   display: block;
   margin: 10px;
-  background: #feb9cc;
+  background: var(--pink);
   max-width: 32rem;
   height: 30rem;
 
@@ -100,7 +52,7 @@ body {
 .grid-item img {
   border-style: solid;
   border-radius: 12px;
-  border-color: #feb;
+  border-color: var(--yellow);
   margin-top: 5vh;
   width: auto;
   object-fit: contain;
@@ -127,7 +79,6 @@ body {
   
   }
   to {
-    filter: drop-shadow(2rem 2rem 2rem #feb);
+    filter: drop-shadow(2rem 2rem 2rem var(--yellow));
   }
 }
-// / Template's main stylesheet.

@@ -14,6 +14,13 @@ pub async fn get_catalog() -> Result<Vec<InventoryRow>, ServerFnError<EcommerceA
         .and_then(|inv: Inventory| Ok(inv.into_inner()))?)
 }
 
+#[server(GetInventoryItem, "/api/inventory/:id")]
+pub async fn get_inventory_item(id: u32) -> Result<InventoryRow, ServerFnError<EcommerceAppError>> {
+    use common::Inventory;
+
+    Ok(Inventory::get_inventory_item(id).await.unwrap())
+}
+
 #[server(GetAsset, "/api/asset")]
 pub async fn get_asset(asset_name: String) -> Result<(), ServerFnError> {
     use leptos_axum::redirect;
