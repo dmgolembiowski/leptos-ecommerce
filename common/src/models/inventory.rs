@@ -1,7 +1,6 @@
 use crate::models::types::*;
 use cfg_if::cfg_if;
 use derive_builder::Builder;
-use errors::EcommerceAppError;
 use std::fmt;
 use std::path::PathBuf;
 
@@ -49,6 +48,7 @@ impl Inventory {
 
 cfg_if! {
     if #[cfg(feature = "ssr")] {
+        use errors::EcommerceAppError;
 
         impl Inventory{
             pub async fn get() -> Result<Self, EcommerceAppError> {
@@ -77,14 +77,14 @@ cfg_if! {
             }
 
             pub async fn get_inventory_item(id: InventoryRowId) -> Result<InventoryRow, rusqlite::Error> {
-                let conn_raw = crate::conn().await.map_err(|e| rusqlite::Error::InvalidPath("db.db3".to_string().into()))?;
+                let conn_raw = crate::conn().await.map_err(|_e| rusqlite::Error::InvalidPath("db.db3".to_string().into()))?;
                 let conn = &mut *conn_raw.lock().await;
                 conn.query_row("
-                SELECT 
-                    id, name, asset, cost, quantity_available, created_at, updated_at 
-                FROM 
-                    inventory 
-                WHERE id = ?1", [id], |row| 
+                SELECT
+                    id, name, asset, cost, quantity_available, created_at, updated_at
+                FROM
+                    inventory
+                WHERE id = ?1", [id], |row|
                 Ok(InventoryRowBuilder::default()
                     .id(row.get(0).unwrap())
                     .name(row.get(1).unwrap())

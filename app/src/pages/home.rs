@@ -1,6 +1,5 @@
 use crate::pages::Catalog;
-use leptos::prelude::{signal, ClassAttribute, ElementChild, OnAttribute, Update};
-use leptos::*;
+use leptos::prelude::{ClassAttribute, ElementChild};
 use leptos::{component, view, IntoView};
 /// Renders the home page of your application.
 #[component]
@@ -20,7 +19,7 @@ fn Home() -> impl IntoView {
     */
     view! {
         <section>
-            <div class=("logo")>
+            <div class="logo">
                 <img src="/assets/logo-transparent.png" alt="Grandma Ben's Byte-sized Cookies" />
             </div>
             <Catalog />

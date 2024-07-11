@@ -1,6 +1,3 @@
-
-use crate::components::grid::Grid;
-use crate::functions::inventory::get_catalog;
 use leptos::prelude::{ElementChild, *};
 
 #[component]

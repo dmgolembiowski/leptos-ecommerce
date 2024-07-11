@@ -1,8 +1,6 @@
 use ::errors::EcommerceAppError;
-use camino::Utf8Path;
 use common::InventoryRow;
 use leptos::prelude::*;
-use leptos::*;
 
 #[server(GetCatalog, "/api/catalog")]
 pub async fn get_catalog() -> Result<Vec<InventoryRow>, ServerFnError<EcommerceAppError>> {

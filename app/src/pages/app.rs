@@ -2,7 +2,6 @@ use crate::pages::catalog::Catalog;
 use crate::pages::catalog::InventoryItem;
 use crate::pages::home::__Home;
 use leptos::prelude::*;
-use leptos::*;
 use leptos::{component, view, IntoView};
 use leptos_meta::*;
 use leptos_router::components::*;

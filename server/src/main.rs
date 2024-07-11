@@ -10,8 +10,6 @@ use std::sync::Arc;
 use tokio::sync::Mutex;
 pub mod fileserv;
 pub mod state;
-use tower::ServiceExt;
-use tower_http::services::ServeDir;
 
 mod embedded {
     use refinery::embed_migrations;
@@ -27,7 +25,7 @@ async fn main() {
     // <https://github.com/leptos-rs/start-axum#executing-a-server-on-a-remote-machine-without-the-toolchain>
     // Alternately a file can be specified such as Some("Cargo.toml")
     // The file would need to be included with the executable when moved to deployment
-    let conf = get_configuration(None).await.unwrap();
+    let conf = get_configuration(None).unwrap();
     let leptos_options = conf.leptos_options;
     let addr = leptos_options.site_addr;
     let routes = generate_route_list(App);
@@ -46,7 +44,6 @@ async fn main() {
     // build our application with a route
     // dbg!(&state);
     let app = Router::new()
-        .with_state(state)
         .leptos_routes_with_context(
             &state,
             routes,
@@ -71,7 +68,8 @@ async fn main() {
                 }
             },
         )
-        .fallback(file_and_error_handler);
+        .fallback(file_and_error_handler)
+        .with_state(state);
 
     // run our app with hyper
     // `axum::Server` is a re-export of `hyper::Server`

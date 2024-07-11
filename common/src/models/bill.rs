@@ -61,6 +61,9 @@ impl Iterator for BillLineItems {
 pub struct Bill(BillRow);
 
 impl Bill {
+    pub fn to_inner(&self) -> &BillRow {
+        &self.0
+    }
     /*
     /// This generates a database record and updates the inventory in response
     /// to a requested cart's order.

@@ -3,13 +3,9 @@ use crate::functions::inventory::get_catalog;
 use crate::functions::inventory::get_inventory_item;
 use hooks::use_params_map;
 use leptos::prelude::{ElementChild, *};
-use leptos::*;
-use leptos_meta::*;
-use leptos_router::hooks::use_params;
 use leptos_router::*;
 // use leptos_router::*;
 use common::InventoryRow;
-use common::InventoryRowId;
 use leptos::component;
 use params::ParamsMap;
 
@@ -17,7 +13,7 @@ use params::ParamsMap;
 #[component]
 pub fn Catalog() -> impl IntoView {
     let inventory_row_items =
-        Resource::new_serde(|| (), move |_| async move { get_catalog().await });
+        Resource::new(|| (), move |_| async move { get_catalog().await });
     { move || {
     view! {
         <div>
